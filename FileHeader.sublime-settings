@@ -78,6 +78,9 @@
     that under **Default**. If FileHeader don't find the suffix,
     FileHeader will set language as **syntax_when_not_match** above.
     */
+    "file_mapping":{
+        "Makefile": "Makefile"
+        },
     "file_suffix_mapping":{
         "as": "ActionScript",
         "scpt": "AppleScript",

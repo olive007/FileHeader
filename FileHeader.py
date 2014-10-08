@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Author: lime
 # @Date:   2013-10-28 13:39:48
-# @Last Modified by:   Lime
+# @Last Modified by:   olive
 # @Last Modified time: 2014-08-11 19:45:15
 
 
@@ -273,18 +273,24 @@ def render_template(syntax_type, part=None, options={}):
 def get_syntax_type(name):
     '''Judge `syntax_type` according to to `name`'''
 
-    syntax_type = Settings().get('syntax_when_not_match')
+    syntax_when_not_match = Settings().get('syntax_when_not_match')
+    syntax_type = syntax_when_not_match
+    file_mapping = Settings().get('file_mapping')
     file_suffix_mapping = Settings().get('file_suffix_mapping')
-
+    
     if name is not None:
+        big_name = name.split('/')
         name = name.split('.')
-        if len(name) <= 1:
-            return syntax_type
-
-        try:
-            syntax_type = file_suffix_mapping[name[-1]]
-        except KeyError:
-            pass
+        if len(name) > 1:
+            try:
+                syntax_type = file_suffix_mapping[name[-1]]
+            except KeyError:
+                pass
+        elif len(big_name) > 1 and syntax_when_not_match == syntax_type:
+            try:
+                syntax_type = file_mapping[big_name[-1]]
+            except KeyError:
+                pass
 
     return syntax_type
 
